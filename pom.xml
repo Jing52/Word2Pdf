@@ -36,24 +36,36 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.docx4j/docx4j -->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.docx4j/docx4j &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.docx4j</groupId>-->
+            <!--<artifactId>docx4j</artifactId>-->
+            <!--<version>6.0.1</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.docx4j/docx4j-export-fo &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.docx4j</groupId>-->
+            <!--<artifactId>docx4j-export-fo</artifactId>-->
+            <!--<version>6.1.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>e-iceblue</groupId>-->
+            <!--<artifactId>spire.doc.free</artifactId>-->
+            <!--<version>3.9.0</version>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>org.docx4j</groupId>
-            <artifactId>docx4j</artifactId>
-            <version>6.0.1</version>
+            <groupId>com.deepoove</groupId>
+            <artifactId>poi-tl</artifactId>
+            <version>1.9.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.docx4j/docx4j-export-fo -->
         <dependency>
-            <groupId>org.docx4j</groupId>
-            <artifactId>docx4j-export-fo</artifactId>
-            <version>6.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>e-iceblue</groupId>
-            <artifactId>spire.doc.free</artifactId>
-            <version>3.9.0</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.0</version>
         </dependency>
     </dependencies>
 </project>
