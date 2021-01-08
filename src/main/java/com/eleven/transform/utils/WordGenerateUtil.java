@@ -4,6 +4,7 @@ import com.eleven.transform.beans.ReportParam;
 import com.eleven.transform.beans.ScreenShot;
 import com.spire.doc.AutoFitBehaviorType;
 import com.spire.doc.Document;
+import com.spire.doc.DocumentProperty;
 import com.spire.doc.FileFormat;
 import com.spire.doc.Section;
 import com.spire.doc.Table;
@@ -29,6 +30,8 @@ public class WordGenerateUtil {
     public static void replace(String sourcePath, ReportParam params, String pdfPath) throws IOException {
         //加载Word文档
         Document document = new Document(sourcePath);
+        //添加节
+        Section section = document.addSection();
 
         //使用新文本替换文档中的指定文本
         replaceText(document, params);
@@ -36,16 +39,78 @@ public class WordGenerateUtil {
         replaceImage(document, "${header}", "C:/Users/DELL/Desktop/tramsform/header.jpg", 400, 50);
         replaceImage(document, "${footer}", "C:/Users/DELL/Desktop/tramsform/footer.jpg", 352, 30);
 
-        System.out.println("关键字： " + document.getBuiltinDocumentProperties().getKeywords());
+        //添加大体所见
+        addView(section, params.getView());
+        //添加镜像所见
+        addMicro(section, params.getShots());
+        //添加诊断意见
+        addDiagnose(section, params.getDiagnose());
 
-        //用图片替换 Word 文档中的特定文本
-        addImages2Excel(document, params.getShots());
+//        //用图片替换 Word 文档中的特定文本
+//        addImages2Excel(document, params.getShots());
 
         //保存文档
 //        document.saveToFile("C:/Users/DELL/Desktop/tramsform/test1.docx", FileFormat.Docx_2013);
 
         //word转pdf
         word2pdf(document, params.getDiagnoseNo(), pdfPath);
+    }
+
+    /**
+     * 大体所见
+     *
+     * @param section
+     * @return
+     */
+    public static void addView(Section section, String view) {
+        //添加第一个段落
+        Paragraph paragraph1 = section.addParagraph();
+        //添加图片到段落
+        paragraph1.appendText("大体所见:");
+        //添加第二个段落
+        section.addParagraph();
+        //添加第三个段落
+        Paragraph paragraph3 = section.addParagraph();
+        //添加图片到段落
+        paragraph3.appendText(view);
+    }
+
+    /**
+     * 镜下所见
+     *
+     * @param section
+     * @param shots
+     * @return
+     */
+    public static void addMicro(Section section, List<ScreenShot> shots) throws IOException {
+        //添加第一个段落
+        Paragraph paragraph1 = section.addParagraph();
+        //添加图片到段落
+        paragraph1.appendText("镜下所见:");
+        //添加第二个段落
+        section.addParagraph();
+        //添加图片到段落
+        addImages2Excel(section, shots);
+    }
+
+    /**
+     * 诊断意见
+     *
+     * @param section
+     * @param diagnose
+     * @return
+     */
+    public static void addDiagnose(Section section, String diagnose) {
+        //添加第一个段落
+        Paragraph paragraph1 = section.addParagraph();
+        //添加文本到段落
+        paragraph1.appendText("诊断意见:");
+        //添加第二个段落
+        section.addParagraph();
+        //添加第二个段落
+        Paragraph paragraph3 = section.addParagraph();
+        //添加文本到段落
+        paragraph3.appendText(diagnose);
     }
 
     /**
@@ -75,7 +140,7 @@ public class WordGenerateUtil {
      * @param document
      */
     private static void replaceImage(Document document, String transText, String imgPath, float width, float height) {
-        //查找文档中的字符串“成都冰蓝科技有限公司”
+        //查找文档中的字符串transText
         TextSelection[] selections = document.findAllString(transText, true, true);
 
         //用图片替换文字
@@ -117,11 +182,10 @@ public class WordGenerateUtil {
     /**
      * 添加图片到 Word 表格
      *
-     * @param document
+     * @param section
      * @return
      */
-    public static void addImages2Excel(Document document, List<ScreenShot> screenShots) throws IOException {
-        Section section = document.addSection();
+    public static void addImages2Excel(Section section, List<ScreenShot> screenShots) throws IOException {
 
         int cells = screenShots.size();
         int rows = (cells % 2) != 0 ? (cells / 2 + 1) * 2 : (cells / 2) * 2;
